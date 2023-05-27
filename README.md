@@ -1,6 +1,6 @@
 # EmbyRefresh
 
-Command line application to forece Emby to refresh Live Tv
+Command line application to force Emby to refresh Live Tv
 ```
 EmbyRefresh API_KEY {Emby server IP Address} {port}
 ```
