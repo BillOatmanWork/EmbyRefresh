@@ -1,8 +1,7 @@
 {
   "profiles": {
     "EmbyRefresh": {
-      "commandName": "Project",
-      "commandLineArgs": "cc359227c4324ed292cc3a2f354aff82"
+      "commandName": "Project"
     }
   }
 }

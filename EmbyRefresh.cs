@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace EmbyRefresh
 {
@@ -10,17 +12,17 @@ namespace EmbyRefresh
     {
         private const string Format = "http://{0}:{1}/emby/ScheduledTasks?IsHidden=false&api_key={2}";
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             EmbyRefresh p = new EmbyRefresh();
-            p.RealMain(args);
+            await p.RealMainAsync(args);
         }
 
-        public void RealMain(string[] args)
+        public async Task RealMainAsync(string[] args)
         {
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
-            string agent = "EmbyRefresh:" + asm.GetName().Version;
-            Console.WriteLine(agent);
+            string agent = "EmbyRefresh";
+            Console.WriteLine($"{asm.GetName().Name} {asm.GetName().Version}");
 
             Uri uriResult;
             string host = "localhost";
@@ -53,13 +55,11 @@ namespace EmbyRefresh
 
             try
             {
-                WebClient webClient = new WebClient();
-                webClient.Headers.Add("user-agent", agent);
-                Stream stream = webClient.OpenRead(uriResult);
-                StreamReader sr = new StreamReader(stream);
-                String request = sr.ReadToEnd();
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Add("user-agent", agent);
+                string json = httpClient.GetStringAsync(uriResult).Result;
                 List<TaskObject> taskObjects = null;
-                taskObjects = JsonConvert.DeserializeObject<List<TaskObject>>(request);
+                taskObjects = JsonConvert.DeserializeObject<List<TaskObject>>(json);
 
                 foreach (TaskObject task in taskObjects)
                 {
@@ -87,10 +87,9 @@ namespace EmbyRefresh
                             {
                                 uriName = string.Format("http://{0}:{1}/emby/ScheduledTasks/Running/{2}?api_key={3}", host, port, task.Id, args[0]);
                                 result = Uri.TryCreate(uriName, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
-                                webClient = new WebClient();
-                                webClient.Headers.Add("user-agent", agent);
-                                webClient.UploadString(uriResult, "");
-                                webClient.Dispose();
+                                HttpClient httpClient2 = new HttpClient();
+                                httpClient2.DefaultRequestHeaders.Add("user-agent", agent);
+                                await httpClient2.PostAsync(uriName, null);
                                 Console.WriteLine("Refresh guide activated");
                             }
                             break;
