@@ -139,13 +139,14 @@ namespace EmbyRefresh
             while (!done)
             {
                 System.Threading.Thread.Sleep(5000);
+                Root status = null;
 
                 try
                 {
                     HttpClient httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Add("user-agent", agent);
                     string json = httpClient.GetStringAsync(uriResult).Result;
-                    Root status = JsonConvert.DeserializeObject<Root>(json);
+                    status = JsonConvert.DeserializeObject<Root>(json);
 
                     if (status.State == "Idle")
                         done = true;
@@ -162,7 +163,7 @@ namespace EmbyRefresh
                 }
 
                 if (!done)
-                    Console.WriteLine("Still waiting for guide refresh to complete ...");
+                    Console.WriteLine($"Still waiting for guide refresh to complete ... {(int)status.CurrentProgressPercentage}%");
             }
         }
     }
