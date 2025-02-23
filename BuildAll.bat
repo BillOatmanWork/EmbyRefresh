@@ -1,22 +1,23 @@
 dotnet publish -r win-x64 -c Release -p:PublishReadyToRun=true -p:PublishSingleFile=true --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true
-dotnet publish -r osx.10.14-x64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
-dotnet publish -r ubuntu.18.04-x64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
+dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
+dotnet publish -r linux-arm -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
+dotnet publish -r linux-arm64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
 dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
-dotnet publish -r debian.12-x64 -c Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --self-contained
 
-cd C:\Stuff\Emby Stuff\EmbyRefresh\EmbyRefresh\Test
+cd C:\repos\EmbyRefresh\Build
 
-copy /Y "C:\Stuff\Repos\EmbyRefresh\bin\Release\net6.0\win-x64\publish\EmbyRefresh.exe" .
+copy /Y "C:\repos\EmbyRefresh\bin\Release\net8.0\win-x64\publish\EmbyRefresh.exe" .
 "C:\Program Files\7-Zip\7z" a -tzip EmbyRefresh-WIN.zip EmbyRefresh.exe
 
-copy /Y "C:\Stuff\Repos\EmbyRefresh\bin\Release\net6.0\osx.10.14-x64\publish\EmbyRefresh" .
+copy /Y "C:\repos\EmbyRefresh\bin\Release\net8.0\osx-x64\publish\EmbyRefresh" .
 "C:\Program Files\7-Zip\7z" a -t7z EmbyRefresh-OSX.7z EmbyRefresh
 
-copy /Y "C:\Stuff\Repos\EmbyRefresh\bin\Release\net6.0\ubuntu.18.04-x64\publish\EmbyRefresh" .
-"C:\Program Files\7-Zip\7z" a -t7z EmbyRefresh-UBU.7z EmbyRefresh
-
-copy /Y "C:\Stuff\Repos\EmbyRefresh\bin\Release\net6.0\linux-x64\publish\EmbyRefresh" .
+copy /Y "C:\repos\EmbyRefresh\bin\Release\net8.0\linux-x64\publish\EmbyRefresh" .
 "C:\Program Files\7-Zip\7z" a -t7z EmbyRefresh-LIN64.7z EmbyRefresh
 
-copy /Y "C:\Stuff\Repos\EmbyRefresh\bin\Release\net6.0\debian.12-x64\publish\EmbyRefresh" .
-"C:\Program Files\7-Zip\7z" a -t7z EmbyRefresh-DEB12.7z EmbyRefresh
+copy /Y "C:\repos\EmbyRefresh\bin\Release\net8.0\linux-arm\publish\EmbyRefresh" .
+"C:\Program Files\7-Zip\7z" a -t7z EmbyRefresh-RasPi.7z EmbyRefresh
+
+copy /Y "C:\repos\EmbyRefresh\bin\Release\net8.0\linux-arm64\publish\EmbyRefresh" .
+"C:\Program Files\7-Zip\7z" a -t7z EmbyRefresh-RasPi64.7z EmbyRefresh
+
